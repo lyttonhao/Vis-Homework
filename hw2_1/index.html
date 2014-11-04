@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Hotel Vis Homework 2_1</title>
+		<script type="text/javascript" src="d3/d3.min.js"></script>
+		<link rel="stylesheet" href="./css/master.css" type="text/css" media="screen" charset="utf-8">
+		<style type="text/css">
+			/* No style rules here yet */		
+		</style>
+	</head>
+	<body>
+		<div class="my-container">
+			<div id ="titleInfo">
+				<h2>Hotel Data</h2>
+				<p id="titlePara">Find Property Relationship by yourself! Select properties of interset, and they will show together in your click order!</p>
+			</div>
+			<div id="top-row"></div>
+			<div id="bottom-row">
+				<input id="showbutton" type="button" value="show" onclick="grouphist()" ></input>
+				<div id="histograms"></div>
+			</div>
+		</div>
+		<script type="text/javascript" src="DrawHistogram.js"> </script>
+	</body>
+</html>
