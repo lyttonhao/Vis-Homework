@@ -1,19 +1,22 @@
-//Width and height
+//by Li Yanghao
+
 var w = 100;
 var h = 115;
 var dataset = []
-var property = ["Female", "Local", "USA", "South America", "Europe", "ME Africa", "Asia",
-     "Businessmen", "Tourists", "Direct Reserve", "Agency", "Air Crews", "<20 years", 
+var property = ["Female",  "Local", "USA", "South America", "Europe", "ME Africa", "Asia",
+      "Direct Reserve", "Agency", "Air Crews", "Businessmen", "Tourists", "<20 years", 
      "20-35 years", "45-55 years", ">55 years", "Price", "Length of stay", "Occupancy", "Conventions"];
+var _property = ["female", "local", "USA", "SA",  "EU",  "MEA", "ASIA",    "DR",
+                "agency",  "AC" , "businessmen", "tourists","u20", "20to35",  "35to55",  "m55" ,"price", "LoS", "occupancy", "conventions"];
+var category = [0,1,1,1,1,1,1,2,2,2,9,9,4,4,4,4,5,6,7,8];
+
+var category_color = ["#1f77b4", "#ff7f0e","#2ca02c","#d62728","#9467bd",
+          "#8c564b","#e377c2","#7f7f7f","#bcbd22","#17becf"];
 var selected_set = [];
 var MonthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.",
                     "Nov.", "Dec."];
 
-d3.csv("data/hotel.csv", function(_dataset) {
-	var _property = [];
-	for (var i in _dataset[0]) {
-		_property.push( i );
-	}
+d3.csv("data/hotel.csv", function(_dataset) {	
 	for (var i = 0; i < property.length; ++i){
     dataset[property[i]] = [];
 		_dataset.forEach( function(d){
@@ -26,8 +29,13 @@ d3.csv("data/hotel.csv", function(_dataset) {
 
 grouphist();
 
+function get_category( prop ) {
+  console.log(category[ property.indexOf(prop) ]);
+  return category[ property.indexOf(prop) ];
+}
 
-function DrawHistogram(w, h, property, dataset){
+//draw a small histogram
+function DrawHistogram(w, h, prop, dataset){
   var barPadding = 1;
   var topPadding = 10;
   var bottomPadding = 15;
@@ -39,7 +47,8 @@ function DrawHistogram(w, h, property, dataset){
 		.append("svg")
 		.attr("width", w)
     	.attr("height", h)
-      .attr("id", property)
+      .attr("id", prop)
+      .attr("fill", category_color[get_category(prop)])
     	.classed({"selected": false, "histogram": true})
 
 	svg.selectAll("rect")
@@ -58,7 +67,7 @@ function DrawHistogram(w, h, property, dataset){
 		});
 
 	svg.append("text")
-    	.text(property)
+    	.text(prop)
     	//.attr("font-family", "sans-serif")
 		.attr("font-size", "11px")
 		.attr("fill", "red")
@@ -98,6 +107,7 @@ function remove_selected(){
   selected_set = [];
 }
 
+//show several histograms together
 function grouphist(){
   data = get_selected();
   remove_selected();
@@ -109,21 +119,34 @@ function grouphist(){
       width = 1200 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
  // console.log(data[0].value);
+  var maxh = 0;
+  var cidx = -1;
   for (var i = 0;i < data.length;++i){
-      var maxv = d3.max(data[i].value);
+      if (data[i].property === "Conventions") cidx = i;
       data[i].scale_val = [];
       data[i].val = []
       for (var j = 0;j < data[i].value.length;++j){
-        data[i].scale_val.push( data[i].value[j]*height/maxv ) ;
-        data[i].val.push( [data[i].value[j], data[i].value[j]*height/maxv] );
+        var sv = (data[i].property === "Length of stay") ? data[i].value[j]*10 : data[i].value[j];
+        data[i].scale_val.push( sv );//*height/maxv ) ;
+        data[i].val.push( [data[i].value[j], sv]);//*height/maxv] );
       }
+      maxh = d3.max([maxh, d3.max(data[i].scale_val)]);
+            console.log(data[i].scale_val);
   }
-//  console.log(data[0].scale_val);
+  console.log(cidx);
+  if (cidx >= 0){
+    data[cidx].scale_val = data[cidx].scale_val.map( function(d) {return d*maxh*0.1;});
+    console.log(data[cidx].scale_val);
+  }
+  for (var i = 0;i < data.length;++i){
+    data[i].val = [];
+    for (var j = 0;j < data[i].value.length;++j)
+      data[i].val.push( [data[i].value[j], data[i].scale_val[j]] );
+  }
+
   var x0 = d3.scale.ordinal()
       .rangeRoundBands([0, width], .1);
-
   var x1 = d3.scale.ordinal();
-
   var y = d3.scale.linear()
       .range([height, 0]);
 
@@ -152,13 +175,18 @@ function grouphist(){
 
   x0.domain(data.map(function(d) { return d.property; }));
   x1.domain(month).rangeRoundBands([0, x0.rangeBand()]);
-  y.domain([0, height]);
+  y.domain([0, maxh]);
+
 
   var xh = height+8;
-  svg.append("g")
+  var gtmp = svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + xh + ")")
     .call(xAxis);
+  gtmp.selectAll("g.tick")
+        .data(data)
+        .attr("fill", function(d) {return category_color[get_category(d.property)]; })
+        .attr("font-weight", "bolder");
 
   svg.append("g")
     .attr("class", "y axis")
@@ -186,8 +214,8 @@ function grouphist(){
      //   console.log(d[0], d[1]);
         return d[0];
       })
-      .attr("x", function(d,i) {return x1(i)+x1.rangeBand()/2-4; })
-      .attr("y", function(d) {console.log(d[1], y(d[1]));return y(d[1])+13})
+      .attr("x", function(d,i) {return x1(i)+x1.rangeBand()/2-6; })
+      .attr("y", function(d) {return y(d[1])-2})
       .attr("font-family", "sans-serif")
       .attr("font-size", "11px")
       .attr("fill", "black");

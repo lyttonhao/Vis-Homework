@@ -1,0 +1,127 @@
+\XeTeXinputencoding "GBK"
+\documentclass[GBK,winfonts,a4paper,11pt]{ctexart}
+\usepackage{fancyhdr}
+\usepackage{indentfirst}
+\usepackage{graphics}
+\usepackage{enumerate}
+\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{numbers=left, numberstyle=\small, keywordstyle=\color{blue!70}, commentstyle=\color{red!50!green!50!blue!50}, frame=shadowbox, rulesepcolor=\color{red!20!green!20!blue!20},escapeinside=``, xleftmargin=2em,xrightmargin=2em, aboveskip=1em}
+\usepackage{geometry}
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}%
+
+
+\pagestyle{plain}
+\hypersetup{pdfborder=0 0 0}
+\usepackage{algorithm}
+
+\usepackage{algorithmic}
+
+\usepackage{latexsym}
+
+\usepackage{clrscode}
+
+\usepackage{latexsym}
+
+
+\linespread{1.3}
+\author{厉扬豪 1100012740}
+\title{可视化第二次作业Part 1}
+\begin{document}
+
+\maketitle
+
+\begin{section}{数据描述与分析}
+\par
+    本次作业的处理数据对象是关于一个hotel的数据。数据中统计该hotel各个月各项指标的数据。比如客人是女性的比例，当地人、美国人、外国人的
+比例，年龄，是否是商人的比例等等，共计20个属性，而月份则对应一年的12个月份。数据原始为20*12的表格，这样显示数据很不直观，难以发现数据中特性。
+而可视化正是考虑将数据换一种方式呈现出来，使得数据更加直观，更容易发现其中性质和它们之间的关系。
+\par
+    首先通过分析20个属性，我们可以发现这些属性这一分为不同的类别：
+\begin{enumerate}
+\item 性别：Female；
+\item 地点：Local, USA, South America, Europe, ME Africa, Asia;
+\item 方式：Direct Reservation, Agency, Air Crews;
+\item 旅客类型：Businessmen, Tourist;
+\item 年龄：<20 years, 20-25 years, 45-55 years, >55 years;
+\item 入住时间：Length of stay;
+\item 入住率：Occupancy;
+\item 是否有会议：Conventions.
+\end{enumerate}
+\par
+    对应hotel的数据，可视化的时候应该注意到两点：
+\begin{enumerate}
+\item 对应每个属性的数据，都可以用直方图等图形的方式展示出来，更容易看到一年变化的趋势，并且不同的类别可以分类显示
+\item 可以对相同类别以及不同类别的不同属性的数据进行比较。
+\end{enumerate}
+
+\end{section}
+
+\begin{section}{设计宗旨和设计过程}
+\par
+    设计宗旨主要是考虑能够将不同属性的数据可以展示出来，并且方便比较。另外用户可以自己选择相同类别甚至不同类别的不同属性进行比较，
+给用户充分的自己进行比较探索的空间。
+\par
+    基于此以及上一节提到的注意点，在设计的时候，呈现每个属性的数据时，主要使用直方图的方式呈现，利用直方图的大小展示
+数据的大小。在一个视图中，将20个属性的直方图一同展现出来，并且按照不同类别分好类，给用户一个全局的视图。每个直方图可以进行点击选择，用户确定之后，
+则可以将选择的几个直方图按照点击的顺序，在上面的大图中一同展示出来，方便用户更清晰观察数据，比较不同属性的数据。
+\par
+    具体设计时，小图的直方图用不同类别的颜色表示，在点击之后变成红色，而大图展示的直方图用彩色表示，展示出月份中数据的变化。
+\end{section}
+
+\begin{section}{可视化结果描述}
+\par
+    最终的可视化视图主要分为两个部分，一个是用于展示所有直方图的视图，并支持点击选择，如下图：
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{1.png}\\
+\caption{视图1}\label{}
+\end{figure}
+点击后的直方图会变成红色，如下图：
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{2.png}\\
+\caption{视图1点击后}\label{}
+\end{figure}
+再点击左侧的“show”按钮，就会将选中的直方图显示到下一个视图当中，如下图：
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{3.png}\\
+\caption{视图2}\label{view2}
+\end{figure}
+视图2中不同月份也用不同的颜色来表示，而一个直方图下的文字的颜色则代表了其属性的类别，比如上图的类别就都是绿色的。
+\par
+    通过视图2，用户可以更加方便地观察和比较数据。比较的方式主要也分为两种：
+\begin{enumerate}
+\item 一种是类内的比较，比如通过图\ref{view2}，我们就可以发现Direct Reserve的比例占绝大数等。又如图\ref{ex4}，我们不仅发现Local的比例占绝大数，同时也能发现不同地区的比例也不同，在
+五到十月份USA,Europe,Asia等的比例就会上升，Local的比例下降等。
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{4.png}\\
+\caption{}\label{ex4}
+\end{figure}
+\item 另一种是类间的比较，可以发现不同类别属性之间的联系。如图\ref{ex5}，我们发现在没有会议的月份，Tourist比例就高，而有会议的时候Businessmen
+比例就高。诸如此类可以发现其他类似的联系。
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{5.png}\\
+\caption{}\label{ex5}
+\end{figure}
+\end{enumerate}
+
+\end{section}
+
+\begin{section}{感想和总结}
+\par
+    这次的可视化作业，因为是第一次，所以刚入门的时候十分痛苦，熟悉d3花了不少时间，不过做完之后还是学习到了不少东西，也算是开始起步了，位置后的
+作业打下了基础。另外看到其他的同学的一些设计也很有启发，包括用饼状图表示百分比，以及不同视图之间的联动等。
+\end{section}
+
+\end{document}
