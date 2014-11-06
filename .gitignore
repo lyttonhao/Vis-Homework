@@ -1,0 +1,10 @@
+*.aux
+.gitignore
+hw2_1/Report/hw2_1.out
+*.synctex
+*.sav
+hw2_1/厉扬豪_1100012740.PNG
+hw2_1/厉扬豪_1100012740_a02p1.zip
+hw2_1/厉扬豪_1100012740_report.pdf
+hw2_1/厉扬豪_1100012740_src.zip
+report_example.pdf
