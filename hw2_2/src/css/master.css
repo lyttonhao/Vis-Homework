@@ -84,5 +84,49 @@ path.slice2 {
   stroke-width:2px;
 }
 
+.unsel_rect {
+  fill: #000;
+  fill-opacity: .5;
+  stroke: #fff;
+}
 
+.sel_rect {
+  fill: red;
+  fill-opacity: .8;
+  stroke: #fff;
+}
+
+
+.SP.extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}
+
+.SP.frame {
+  fill: #fff;
+  fill-opacity: .7;
+  stroke: #aaa;
+}
+
+.SP.axis {
+  shape-rendering: crispEdges;
+}
+
+.SP.axis line {
+  stroke: #ddd;
+  stroke-width: .5px;
+}
+
+.SP.axis path {
+  display: none;
+}
+
+.SP.circle {
+  opacity: 0.7;
+}
+
+.SP.nocircle {
+  opacity: 0.05;
+}
 

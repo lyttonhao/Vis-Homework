@@ -1,5 +1,5 @@
 var PC = {};
-    PC.margin = {top: 30, right: 10, bottom: 10, left: 5};
+    PC.margin = {top: 30, right: 10, bottom: 30, left: 5};
     PC.width = 800 - PC.margin.left - PC.margin.right;
     PC.height = 400 - PC.margin.top - PC.margin.bottom;
 
@@ -18,14 +18,18 @@ var HG = {};
 
 var PIE = {};
 var LEG = {};
+var SP = {};
 
 var color = d3.scale.category10();
 var dimensions;
 var stat = {};
 var num = [0, 59, 71, 48];
 var attrName = ["Alcohol","Malic acid","Ash","Alcalinity of ash","Magnesium","Total phenols","Flavanoids",
-  "Nonflavanoid phenols","Proanthocyanins","Color intensity","Hue","OD280/OD315 of diluted wines","Proline"];
+  "Nonflavanoid phenols","Proanthocyanins","Color intensity","Hue","OD280/OD315","Proline"];
 var wine;
+
+var seldim = [];
+for (var i = 0;i < 13;++i) { seldim.push(false); }
 
 d3.csv("data/wine.csv", function(error, _wine) {
   wine = _wine;
@@ -34,6 +38,7 @@ d3.csv("data/wine.csv", function(error, _wine) {
   console.log( stat );
   ShowHistogram( stat["A1"], "A1" );
   DrawPie();
+  Scatterplot();
 });
 
 //get some statistic data
@@ -108,6 +113,8 @@ function ShowHistogram( data, propty ){
             .attr("y", -10)
             .attr("text-anchor", "middle")
             .text(propty+":"+getName(propty));
+
+
       HG.update = function(propty){
           var data = stat[propty];
 
@@ -183,7 +190,7 @@ function get_pie_data(){
 function DrawPie( ){
   data = get_pie_data();
   var width = 400, 
-      height = 300,
+      height = 200,
       radius = 60;
   var p1margin = {cx: (10+radius),  cy: radius};
   var p2margin = {cx: (4*radius),   cy: radius};
@@ -250,8 +257,6 @@ function DrawPie( ){
         .attr("y", p2margin.cy+3)
         .attr("text-anchor", "middle")
         .text("Wine");
-
-
 }
 
 //draw ParallelCoordinates
@@ -316,15 +321,32 @@ function ParallelCoord( wine ){
               .duration(0)
               .attr("visibility", null);
         }));
+
   g.on("mouseover", function(d,i) {
       HG.update(d);
   });
 
   // Add an axis and title.
-  g.append("g")
+  var gaxis = g.append("g")
       .attr("class", "PC axis")
-      .each(function(d) { d3.select(this).call(PC.axis.scale(PC.y[d])); })
-    .append("text")
+      .each(function(d) { d3.select(this).call(PC.axis.scale(PC.y[d])); });
+
+  gaxis.append("rect")
+      .attr("class", "unsel_rect").attr("x", -12).attr("y", PC.height+5).attr("width", 10).attr("height", 10)
+      .on("click", function(d, i){
+            var self = d3.select(this);
+            if (self.attr("class") === "sel_rect") self.attr("class", "unsel_rect");
+            else self.attr("class", "sel_rect");
+            seldim[i] = !seldim[i];
+            Scatterplot();
+      });
+
+  gaxis.append("text")
+      .style("text-anchor", "start")
+      .attr("x", 0).attr("y", PC.height+15)
+      .text(function(d) { return d; });
+
+  gaxis.append("text")
       .style("text-anchor", "middle")
       .attr("y", -9)
       .text(function(d) { return d; });
@@ -334,7 +356,8 @@ function ParallelCoord( wine ){
   g.append("g")
       .attr("class", "brush")
       .each(function(d) {
-        d3.select(this).call(PC.y[d].brush = d3.svg.brush().y(PC.y[d]).on("brushstart", brushstart).on("brush", brush));
+        d3.select(this).call(PC.y[d].brush = d3.svg.brush().y(PC.y[d])
+                          .on("brushstart", brushstart).on("brush", brush).on("brushend", brushend));
       })
     .selectAll("rect")
       .attr("x", -8)
@@ -375,4 +398,125 @@ function brush() {
   });
   PIE.update();
   LEG.update();
+ 
+}
+
+function brushend() {
+   Scatterplot();
+}
+
+function sel_dim(){
+  selected_set = [];
+  for (var i = 0;i < dimensions.length;++i)
+      if (seldim[i]) selected_set.push(dimensions[i]);
+  return selected_set;
+}
+
+//draw scatterplot matrix
+function Scatterplot(){
+  d3.select("#bottom-row").select(".scatterplot").remove();
+
+  traits = sel_dim();
+  var width = 1200,
+      padding = 10,
+      n = traits.length,
+      data = wine;
+  if ( n === 0) return;
+
+  var size = d3.min([140, width/n]);
+  var margin = {left: (width-size*n)/2, top: 20};
+  var height = size * n + margin.top;
+
+  var svg = d3.select("#bottom-row").append("svg:svg")
+      .attr("class", "scatterplot")
+      .attr("width", width)
+      .attr("height", height)
+    .append("svg:g")
+      .attr("transform", "translate("+margin.left+","+margin.top+")");
+  console.log(size, margin);
+ 
+  // Position scales.
+  var x = {}, y = {};
+  traits.forEach(function(trait) {
+    // Coerce values to numbers.
+    data.forEach(function(d) { d[trait] = +d[trait]; });
+
+    var value = function(d) { return d[trait]; },
+        domain = [d3.min(data, value), d3.max(data, value)],
+        range = [padding / 2, size - padding / 2];
+    x[trait] = d3.scale.linear().domain(domain).range(range);
+    y[trait] = d3.scale.linear().domain(domain).range(range.reverse());
+  });
+
+  // Axes.
+  var axis = d3.svg.axis()
+      .ticks(5)
+      .tickSize(size * n);
+
+  // X-axis.
+  svg.selectAll("g.x.axis")
+      .data(traits)
+    .enter().insert("svg:g")
+      .attr("class", "x SP axis")
+      .attr("transform", function(d, i) { return "translate(" + i * size + ",0)"; })
+      .each(function(d) { d3.select(this).call(axis.scale(x[d]).orient("bottom")); });
+
+  // Y-axis.
+  svg.selectAll("g.y.axis")
+      .data(traits)
+    .enter().insert("svg:g")
+      .attr("class", "y SP axis")
+      .attr("transform", function(d, i) { return "translate(0," + i * size + ")"; })
+      .each(function(d) { d3.select(this).call(axis.scale(y[d]).orient("right")); });
+
+  // Cell and plot.
+  var cell = svg.selectAll("g.cell")
+      .data(cross(traits, traits))
+    .enter().insert("svg:g")
+      .attr("class", "cell")
+      .attr("transform", function(d) { return "translate(" + d.i * size + "," + d.j * size + ")"; })
+      .each(plot);
+
+  // Titles for the diagonal.
+  cell.filter(function(d) { return d.i == d.j; }).append("svg:text")
+      .attr("x", padding)
+      .attr("y", padding)
+      .attr("dy", ".71em")
+      .text(function(d) { return d.x+":"+getName(d.x); });
+
+  function plot(p) {
+    var cell = d3.select(this);
+
+    // Plot frame.
+    cell.insert("rect")
+        .attr("class", "SP frame")
+        .attr("x", padding / 2)
+        .attr("y", padding / 2)
+        .attr("width", size - padding)
+        .attr("height", size - padding);
+
+    // Plot dots.
+    cell.selectAll("circle")
+        .data(data)
+      .enter().insert("circle")
+        .attr("class", function(d,i) {return getCircleClass(d,i);} )
+        .attr("fill", function(d) { return color(d["Wine"]); })
+        .attr("cx", function(d) { return x[p.x](d[p.x]); })
+        .attr("cy", function(d) { return y[p.y](d[p.y]); })
+        .attr("r", 3);
+
+    // Plot brush.
+ //   cell.call(brush.x(x[p.x]).y(y[p.y]));
+  }
+
+  function getCircleClass(d, i){
+     return (d3.select(PC.foreground[0][i]).style("display") === "none") ? "SP nocircle" : "SP circle";
+  }
+
+  function cross(a, b) {
+    var c = [], n = a.length, m = b.length, i, j;
+    for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
+    return c;
+  }
+
 }
