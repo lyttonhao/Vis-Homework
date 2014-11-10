@@ -1,0 +1,88 @@
+.my-container {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+}
+#top-row {
+    width: 100%;
+  	height: 400px;
+}
+#left-column {
+  width: 800px;
+  float: left;
+}
+
+#right-column {
+  width: 400px;
+  float: right;
+}
+#bottom-row {
+    width: 100%;
+}
+
+
+#titlePara {
+  font-family: Georgia;
+  font-size: 10px;
+}
+
+#showbutton {
+    background-color:#9C8C42;
+    border: 2px solid #91782c;
+    color: #FFF;
+    text-align: center;
+    height: 40px;
+    width: 40px
+    display: block;
+}
+
+svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.PC.axis path,
+.PC.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.PC.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  cursor: move;
+}
+
+.hG.axis path,
+.hG.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: auto;
+}
+.hG.axis text {
+  font: 10px sans-serif;
+}
+
+path.slice,
+path.slice2 {
+  stroke-width:2px;
+}
+
+
+
