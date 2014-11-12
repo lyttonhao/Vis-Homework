@@ -28,8 +28,8 @@ var attrName = ["Alcohol","Malic acid","Ash","Alcalinity of ash","Magnesium","To
   "Nonflavanoid phenols","Proanthocyanins","Color intensity","Hue","OD280/OD315","Proline"];
 var wine;
 
-var seldim = [];
-for (var i = 0;i < 13;++i) { seldim.push(false); }
+var seldim = [true, true];
+for (var i = 2;i < 13;++i) { seldim.push(false); }
 
 d3.csv("data/wine.csv", function(error, _wine) {
   wine = _wine;
@@ -114,6 +114,11 @@ function ShowHistogram( data, propty ){
             .attr("text-anchor", "middle")
             .text(propty+":"+getName(propty));
 
+      hGsvg.append("g")
+            .attr("class", "intro")
+            .append("text").attr("x", HG.width/2).attr("y", HG.height+30).attr("text-anchor", "middle")
+            .text("Average and Deviation");
+
 
       HG.update = function(propty){
           var data = stat[propty];
@@ -150,6 +155,7 @@ function ShowHistogram( data, propty ){
             .style("text-anchor", "start")
             .text(function(d) {return "Wine"+d.type;});
 
+    
       
       legend.append("text").attr("class", "prct")
             .attr("x", 97).attr("y", 15).attr("dy", ".35em")
@@ -199,7 +205,7 @@ function DrawPie( ){
   var svg = d3.select("#piechart").append("svg")
               .attr("width", width)
               .attr("height", height).append("g")
-              .attr("transform", "translate("+30+','+0+")");
+              .attr("transform", "translate("+30+','+20+")");
   var psvg1 = svg.append("g")
                 .attr("transform", "translate(" + p1margin.cx + "," + p1margin.cy + ")");
 
@@ -250,13 +256,13 @@ function DrawPie( ){
         .attr("x", 0)
         .attr("y", p1margin.cy+3)
         .attr("text-anchor", "middle")
-        .text("Total");
+        .text("Total Selected");
   psvg2.append("g").attr("class", "pie title")
         .append("text")
         .attr("x", 0)
         .attr("y", p2margin.cy+3)
         .attr("text-anchor", "middle")
-        .text("Wine");
+        .text("Selected Wine");
 }
 
 //draw ParallelCoordinates
@@ -332,7 +338,8 @@ function ParallelCoord( wine ){
       .each(function(d) { d3.select(this).call(PC.axis.scale(PC.y[d])); });
 
   gaxis.append("rect")
-      .attr("class", "unsel_rect").attr("x", -12).attr("y", PC.height+5).attr("width", 10).attr("height", 10)
+      .attr("class", function(d,i) {return seldim[i]? "sel_rect":"unsel_rect";})
+      .attr("x", -12).attr("y", PC.height+5).attr("width", 10).attr("height", 10)
       .on("click", function(d, i){
             var self = d3.select(this);
             if (self.attr("class") === "sel_rect") self.attr("class", "unsel_rect");
@@ -424,8 +431,8 @@ function Scatterplot(){
   if ( n === 0) return;
 
   var size = d3.min([140, width/n]);
-  var margin = {left: (width-size*n)/2, top: 20};
-  var height = size * n + margin.top;
+  var margin = {left: (width-size*n)/2, top: 20, bottom: 20};
+  var height = size * n + margin.top + margin.bottom;
 
   var svg = d3.select("#bottom-row").append("svg:svg")
       .attr("class", "scatterplot")
@@ -450,7 +457,7 @@ function Scatterplot(){
 
   // Axes.
   var axis = d3.svg.axis()
-      .ticks(5)
+      .ticks(3)
       .tickSize(size * n);
 
   // X-axis.
@@ -505,8 +512,6 @@ function Scatterplot(){
         .attr("cy", function(d) { return y[p.y](d[p.y]); })
         .attr("r", 3);
 
-    // Plot brush.
- //   cell.call(brush.x(x[p.x]).y(y[p.y]));
   }
 
   function getCircleClass(d, i){

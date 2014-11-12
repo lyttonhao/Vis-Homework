@@ -1,0 +1,123 @@
+\XeTeXinputencoding "GBK"
+\documentclass[GBK,winfonts,a4paper,11pt]{ctexart}
+\usepackage{fancyhdr}
+\usepackage{indentfirst}
+\usepackage{graphics}
+\usepackage{enumerate}
+\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{numbers=left, numberstyle=\small, keywordstyle=\color{blue!70}, commentstyle=\color{red!50!green!50!blue!50}, frame=shadowbox, rulesepcolor=\color{red!20!green!20!blue!20},escapeinside=``, xleftmargin=2em,xrightmargin=2em, aboveskip=1em}
+\usepackage{geometry}
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}%
+
+
+\pagestyle{plain}
+\hypersetup{pdfborder=0 0 0}
+\usepackage{algorithm}
+
+\usepackage{algorithmic}
+
+\usepackage{latexsym}
+
+\usepackage{clrscode}
+
+\usepackage{latexsym}
+
+
+\linespread{1.3}
+\author{厉扬豪 1100012740}
+\title{可视化第二次作业Part 2}
+\begin{document}
+
+\maketitle
+
+\begin{section}{数据描述与分析}
+\par
+    本次作业的处理数据对象是关于一个Wine的数据。数据中每一行代表了一类酒，一类酒除了第一维表示酒的类别，共有三种酒之外，其他
+13维分别了代表了13个属性，这是一个典型的高维数据。对此在实现可视化的过程中，主要也考虑的是高维可视化，注意点主要有：
+\begin{enumerate}
+\item 展示三类酒在各个属性的不同之处
+\item 体现各个属性之间的相关性和差异性
+\end{enumerate}
+
+\end{section}
+
+\begin{section}{设计宗旨和设计过程}
+\par
+    设计宗旨主要是考虑既要能展示出高维属性的特点，又能让用户有一定的交互性，方便发现属性之间的联系。
+\par
+    基于此以及上一节提到的注意点，在设计的时候，首先考虑用平行坐标展示所有属性，并且三种类型的酒使用不同颜色表示。
+平行坐标还支持拖动各个维度，使其按照不同的顺序显示；在一个维度上选择一定的范围，是选定的数据高亮。另外还同时有一个
+表示信息的视图，用来展示各个维度不同类型酒的均值方差，以及选中数据点的个数，各种酒的比例等。
+\par
+    同时为了展现不同的属性的相关性，考虑使用散点图（ScatterPlot）来体现，考虑到13维维数太大，支持用户自己选择选定的
+特征维进行展示。
+\end{section}
+
+\begin{section}{可视化结果描述}
+\par
+    最终的可视化视图主要分为三个部分，一个是用于展示所有属性的平行坐标图，如下图：
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{1.png}\\
+\caption{视图1}\label{}
+\end{figure}
+支持的操作主要是：
+\begin{enumerate}
+\item 拖动各个维度，不同顺序展示；
+\item 在每个维度上都可以选择一定的范围进行展示，选中的数据高亮；
+\item 下方方框点击支持将当前维度加入或推出散点图。
+\end{enumerate}
+\par
+    第二个是右侧的信息视图，用于同步展示左边在平行坐标上操作时，选中数据点对应的一些信息，如下图：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{2.png}\\
+\caption{视图2}\label{}
+\end{figure}
+展示的数据信息主要有:
+\begin{enumerate}
+\item 选中的数据，占三种酒各自的比例；
+\item 鼠标放置的特征维数，三种酒对应的均值和方差情况；
+\item 选中数据的比例和选中数据中三种酒的比例。
+\end{enumerate}
+\par
+    第三个视图就是用来展示选中的维度，组合成的散点图，选中的数据高亮显示，这和平行坐标中的操作也是同步的，如下图：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{3.png}\\
+\caption{视图3}\label{}
+\end{figure}
+\par
+    通过上面三个图的联合展示，用户就可以更加容易地发现三种酒的特点，以及不同属性之间的联系等。比如：
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{4.png}\\
+\caption{}\label{}
+\end{figure}
+我们通过A13维上选择，可以这个维度可以比较容易区分蓝色的这种酒，右侧的信息栏也验证了这一点，选中大部分都是蓝色的酒，
+同时86$\%$的蓝色类型的酒也被选中，A13的均值方差分布也说明了该维度能比较好区分蓝色的酒。当然数据也体现另两种酒也会有少量数据混入。
+\par
+    另一个例子，如下图：
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{5.png}\\
+\caption{}\label{}
+\end{figure}    
+我们能发现一些属性之间的关系，比如利用A1和A6的散点图比较分散，说明A1和A6可以较好地区分三种酒；而A6和A7这两种属性应该是比较
+相关的两种属性。
+\end{section}
+
+\begin{section}{感想和总结}
+\par
+    这次的可视化作业，在做的过程中接触了d3中更多的可视化的工具，做完之后学习到了不少东西，了解到了高维数据的一些可视化展示的方法。
+\end{section}
+
+\end{document}
