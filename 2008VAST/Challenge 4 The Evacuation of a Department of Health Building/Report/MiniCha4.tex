@@ -1,0 +1,152 @@
+\XeTeXinputencoding "GBK"
+\documentclass[GBK,winfonts,a4paper,11pt]{ctexart}
+\usepackage{fancyhdr}
+\usepackage{indentfirst}
+\usepackage{graphics}
+\usepackage{enumerate}
+\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{mdwlist}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{numbers=left, numberstyle=\small, keywordstyle=\color{blue!70}, commentstyle=\color{red!50!green!50!blue!50}, frame=shadowbox, rulesepcolor=\color{red!20!green!20!blue!20},escapeinside=``, xleftmargin=2em,xrightmargin=2em, aboveskip=1em}
+\usepackage{geometry}
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}%
+
+
+\pagestyle{plain}
+\hypersetup{pdfborder=0 0 0}
+\usepackage{algorithm}
+
+\usepackage{algorithmic}
+
+\usepackage{latexsym}
+
+\usepackage{clrscode}
+
+\usepackage{latexsym}
+
+
+\linespread{1.3}
+\author{厉扬豪 1100012740}
+\title{2008 VAST Challenge 4 Report}
+\begin{document}
+
+\maketitle
+
+\begin{section}{数据描述与分析}
+\par
+    这个Challenge描述的是关于一次卫生部大楼的爆炸和撤离事件，而Paraiso组织被怀疑与这次的爆炸有关。提供的数据包括
+三个部分：
+\begin{enumerate}
+\item 大楼的建筑信息，大楼被标记成91*61的格点，各个点用0和1分别表示了是可以通路或是墙壁；
+\item 人名信息，给了id与name的人名对照表；
+\item 位置信息，给出了各个时刻，各个人所在的位置。
+\end{enumerate}
+
+\end{section}
+
+\begin{section}{设计宗旨和设计过程}
+\par
+    设计宗旨主要是考虑尽可能利用动画展示各个人位置的变化，并统计其他的相关信息，从而辅助发现一些数据中的信息。
+\par
+    设计中主要注意的几点要素就是：时间，人的路线，速度，爆炸点之间的关系，除了地图之外的其他信息视图也是主要围绕
+这几个进行展开。交互方面主要注意人物的点击选择，以及爆炸点的选择。
+\end{section}
+
+\begin{section}{可视化结果描述}
+\par
+    最终的可视化界面如图\ref{overview}，主要分为四个视图，包括：地图视图，表格视图，速度与时间图，距离与时间图，
+当然还包括用于播放动画的时间条。首先分别介绍一下四个图的内容:
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{1.png}\\
+\caption{overview}\label{overview}
+\end{figure}
+\begin{enumerate}
+\item 地图视图： 包含了各个点，并且随时间变化，每个点在鼠标悬停是会显示信息以及路径，点击选中之后也支持路径的实时显示；
+    另外地图上支持标定爆炸点的位置，并且在其他视图中会统计各个点距离爆炸点的距离。
+\item 表格视图：
+    统计了各个点当前的id，当前速度和距离爆炸点的距离，同时也支持点击选择和悬停操作，并且支持按属性排序功能。
+\item 速度与时间视图：
+    画出了各个人在不同时间的速度变化，也支持选择等操作。
+\item 速度与距离视图：
+    画出了各个人在当前时间，速度与距离的变化关系。
+\end{enumerate}
+\par
+    利用上述视图，分析发现的结果：
+\begin{paragraph}{爆炸的时间和地点} 通过一次动画的播放，不难看出地点应该就在地图的右上角，也就是最后遇难者区域附近，而时间从“速度与时间视图”中可以看出在大概370
+左右的时候，所有人的速度开始激增，这个时间应该是爆炸的时间。
+\end{paragraph}
+\begin{paragraph}{嫌疑人}
+    嫌疑人应该就是21号Ramon Katalanow，这个人一开始就在爆炸点附近移动，爆炸的时候也成功躲过，路线不慌不忙
+速度也不快，十分可疑，如下图的路线图\ref{suspath}，以及在前期距离bomb较近区域只有21号的速度不为0，如图\ref{susspeed}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{2.png}\\
+\caption{}\label{suspath}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{3.png}\\
+\caption{}\label{susspeed}
+\end{figure}
+\end{paragraph}
+
+\begin{paragraph}{遇难者}
+    遇难者主要就是最后还在大楼内，且速度为0的一些人，如图\ref{victim}，将表格视图最后时刻的速度排序，如图\ref{tablevictim}，也可以看到
+最后速度很小的人大多数是没有逃出去的人。
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\textwidth]{4.png}\\
+\caption{}\label{victim}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{5.png}\\
+\caption{}\label{tablevictim}
+\end{figure}
+\end{paragraph}
+
+\begin{paragraph}{目击者}
+    和21号路线相同的只有1号，1号也是可能的目击者了。如图\ref{witness}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{6.png}\\
+\caption{}\label{witness}
+\end{figure}
+\end{paragraph}
+
+\begin{paragraph}{其他有特点的人}
+    通过分析早期有行动的一些人的路径，如图\ref{interesting}，还可以发现一些有特点的人，比如56号，从很远的地方过来最后不幸死在爆炸地点，
+如图\ref{56}，还有29号是个移动距离比较长的人，不过并没有接近炸弹区域，如图\ref{29}。
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{7.png}\\
+\caption{}\label{interesting}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{8.png}\\
+\caption{56}\label{56}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{9.png}\\
+\caption{29}\label{29}
+\end{figure}
+\end{paragraph}
+
+
+
+
+
+\end{section}
+
+
+
+\end{document}

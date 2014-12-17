@@ -1,0 +1,169 @@
+.my-container {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1250px;
+}
+#top-row {
+    width: 100%;
+  	height: 650px;
+}
+#left-column {
+  width: 20%;
+  float: left;
+}
+#mid-column {
+  width: 53%;
+  float: left;
+}
+
+#right-column {
+  width: 27%;
+  float: left;
+}
+
+
+#table-column {
+  max-height: 650px;
+  width: %100;
+  overflow: scroll;
+}
+
+#bottom-row {
+    width: 100%;
+}
+
+#titlePara {
+  font-family: Georgia;
+  font-size: 10px;
+}
+
+#showbutton {
+    background-color:#9C8C42;
+    border: 2px solid #91782c;
+    color: #FFF;
+    text-align: center;
+    height: 40px;
+    width: 40px
+    display: block;
+}
+
+#info {
+    position: absolute;
+    pointer-events: none;
+    background-color: silver;
+    padding: 2px;
+    font-family: arial, sans-serif;
+    font-size: 14px;
+}
+
+#bombxy {
+  font-family: Georgia;
+  font-size: 20px;
+}
+
+
+svg {
+  font: 10px sans-serif;
+}
+
+.map {
+  fill: white;
+  stroke: whiteSmoke;
+  stroke-width: 0.1px;
+}
+
+.map.block {
+  fill: gray;
+}
+.map.bomb {
+  fill: black;
+}
+
+.person {
+  fill: blue;
+}
+
+.nodisplay {
+  display: none;
+}
+
+.pathline {
+  fill: none;
+  stroke: red;
+  stroke-width: 1.5px
+}
+
+.overpathline {
+  fill: none;
+  stroke: #0099CC;
+  stroke-width: 1.5px 
+}
+table {
+  float: center;
+  border-color: black;
+  font: 10px sans-serif;
+}
+
+.over {
+  fill: green;
+}
+.dot {
+  fill: blue;
+}
+.dot.over {
+  fill: green;
+}
+.trover {
+  background-color: green;
+}
+
+.selected {
+  fill: red;
+}
+
+.dot.selected {
+  fill: red;
+}
+.trselected {
+  background-color: red;
+}
+.bombcircle {
+  fill:none;
+  stroke: black;
+  stroke:-width: 2px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.speedpath {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.5px;
+  stroke-opacity: 0.5;
+}
+
+.speedpath.over {
+  stroke: green;
+  stroke-width: 2px;
+  stroke-opacity: 1;
+
+}
+.speedpath.selected {
+  stroke-width: 2px;
+  stroke-opacity: 1;
+}
+
+#timeline11 {
+  fill: none;
+  stroke: purple;
+  stroke-width: 2px;
+}
+
+.buttonpressed {
+  background: gray;
+}

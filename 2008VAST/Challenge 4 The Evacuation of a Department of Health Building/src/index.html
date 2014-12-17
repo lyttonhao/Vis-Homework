@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>2008 VAST Challenge 4</title>
+		<script type="text/javascript" src="d3/d3.min.js"></script>
+		<script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="jquery-ui-1.11.2/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="d3.slider/d3.slider.js"></script>
+		<link rel="stylesheet" href="./css/master.css" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="jquery-ui-1.11.2/jquery-ui.min.css" />  
+		<style type="text/css">
+			/* No style rules here yet */		
+		</style>
+	</head>
+	<body>
+		<div class="my-container">
+			<div id ="titleInfo">
+				<h2>Evacuation</h2>
+				<p id="titlePara">
+				</p>
+			</div>
+			<div id="top-row">
+				<div id="left-column">
+					<div id="table-column">
+						<table border="1">
+							<thead></thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+				<div id="mid-column">
+					
+					<div id="mapspace" ></div>
+					<div id = "speedpic"></div>
+				</div>
+				<div id="right-column">
+					<div id="info" class="nodisplay"></div>
+					<div  style="margin-left:30px;margin-right:30px">
+						<input type="text" id="nowtime" readonly style="border:0; color:#f6931f; font-weight:bold;">
+						<div id = "slider-range" style="margin-top:10px;margin-bottom:10px"></div>
+						<input type="button" id = "playButton" onclick=play(this) value="Play"></button>
+						<input type="button" id = "speedx1" onclick=func_speed(this) value="x1" class="buttonpressed"></button>
+						<input type="button" id = "speedx2" onclick=func_speed(this) value="x2"></button>
+						<input type="button" id = "speedx5" onclick=func_speed(this) value="x5"></button>
+						<div id="bombxy" style="margin-top:20px">Bomb: (-1,-1), R: 70</div>
+					</div>
+					<div id = "speeddis" style="margin-bottom:25px"></div>
+					
+				</div>
+			</div>
+			<div id="bottom-row">
+			</div>
+		</div>
+		<script type="text/javascript" src="evacuation.js"> </script>
+	</body>
+</html>
