@@ -1,0 +1,200 @@
+#left{
+	position:absolute;
+	left:0.5%;
+	top:0.5%;
+	height:96%;
+	width:6%;
+	border-radius: 4px;
+	/* background-color: whitesmoke; */
+  background-color:white;
+	z-index:3;  /*将div块设置在map的上面*/
+}
+.brush .extent {
+  stroke:rgb(230, 247, 81);
+  stroke-width:2px;
+   fill: rgb(200, 245, 134);
+   opacity: .5;
+  shape-rendering: crispEdges;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #A6A4A4;
+  stroke-width:2px;
+  shape-rendering: crispEdges;
+}
+.axis text{
+	font-size:5px;
+	fill:#A6A4A4;
+}
+
+#map{
+	position:absolute;
+	left:1%;
+	right:1%;
+	top:0.5%;
+	width:98%;
+	height:95%;
+	overflow:hidden;
+	font-family: Microsoft Yahei;
+}
+.keyWord_place, .keyWord_place svg {
+   position: absolute;
+   cursor:default;
+ }
+
+ .keyWord_place svg {
+   width: 60px;
+   height: 40px;
+   padding-right: 10px;
+   font: 10px sans-serif;
+}
+.user_weibo_place, .user_weibo_place svg {
+   position: absolute;
+   cursor:default;
+ }
+
+ .user_weibo_place svg {
+   width: 60px;
+   height: 20px;
+   padding-right: 100px;
+   font: 10px sans-serif;
+}
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  font-family: Microsoft Yahei;
+  font-size:10px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 6px;
+  width:200px;
+  line-height:15px; /*设置行距*/
+  z-index:3;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+/* 标签云块属性的设置*/
+#word_cloud{
+  position:absolute;
+  left:2%;
+  top:0.5%;
+  z-index: 3;
+  opacity:0.8;
+  border-radius: 10px;
+  font-family: Microsoft Yahei;
+ /*  background-color: rgb(239, 239, 253); */
+ background-color:white;
+}
+.cloud_tag_color
+{
+   color:white;
+   font-size:200%;
+   cursor:pointer;
+}
+#triangle_cloud{
+   position:absolute;
+   z-index: 4;
+   opacity:0.8;
+   /* background-color:rgb(239, 239, 253); */
+   background-color:rgb(223, 250, 168);
+   /* background-color: rgb(11, 11, 240); */
+ }
+.hidden_cloud{
+  display: none;
+}
+
+#nl_graph{
+  position:absolute;
+  left:5%;
+  top:5%;
+  width:60%;
+  height:60%;
+  display:none;
+ /* border:2px solid green;*/
+  /*z-index:3;*/
+}
+.d3-tip-graph {
+  line-height: 1;
+  font-weight: bold;
+  font-family: Microsoft Yahei;
+  font-size:10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 6px;
+  width:80px;
+  z-index:3;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip-graph:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+/* Style northward tooltips differently */
+.d3-tip-graph.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.d3-tip-graph-user {
+  line-height: 1;
+  font-weight: bold;
+  font-family: Microsoft Yahei;
+  font-size:10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 6px;
+  width:150px;
+  z-index:3;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip-graph-user:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+/* Style northward tooltips differently */
+.d3-tip-graph-user.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+/* theme river 交互，阻止river上鼠标事件的反应 */
+.context{
+  pointer-events:none;
+}

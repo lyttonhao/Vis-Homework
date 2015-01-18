@@ -1,0 +1,100 @@
+.my-container {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1250px;
+}
+#top-row {
+    width: 100%;
+  	height: 100%;
+}
+
+
+#bottom-row {
+  width: 100%;
+  height: 100px;
+}
+
+.keypanel {
+  width: 22%;
+  height: 78%;
+  left:70%;
+  top: 5%;
+  font-size: 7px;
+  position:absolute;
+  opacity: 0.9;
+}
+
+.graphpanel {
+  width: 35%;
+  height: 70%;
+  left:10%;
+  top: 5%;
+  font-size: 7px;
+  position:absolute;
+  opacity: 0.9;
+  z-index:3;
+}
+
+
+.d3-tip-graph {
+  line-height: 1;
+  font-weight: bold;
+  font-family: Microsoft Yahei;
+  font-size:10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 6px;
+  width:80px;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip-graph:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+/* Style northward tooltips differently */
+.d3-tip-graph.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.d3-tip-graph-user {
+  line-height: 1;
+  font-weight: bold;
+  font-family: Microsoft Yahei;
+  font-size:10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 6px;
+  width:150px;
+}
+/* Creates a small triangle extender for the tooltip */
+.d3-tip-graph-user:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+/* Style northward tooltips differently */
+.d3-tip-graph-user.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+

@@ -1,0 +1,2 @@
+python nlpir.py
+pause
